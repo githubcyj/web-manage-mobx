@@ -3,6 +3,8 @@ let HtmlWebpackplugin = require('html-webpack-plugin')
 let MiniCssExtractPlugin = require('mini-css-extract-plugin')
 let OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin')
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+let {CleanWebpackPlugin} = require('clean-webpack-plugin')
+let copyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
 
@@ -18,12 +20,14 @@ module.exports = {
 
   mode : 'development',//模式 production  development
   entry: {
-    app: "./app.js"//入口文件
+    app: "./src/index.js"//入口文件
   },
   output: {
-    publicPath: __dirname + "/dist/", // js引用路径或者CDN地址
-    path: path.resolve(__dirname, "dist"), // 打包文件的输出目录
-    filename: "bundle.js"
+    path: path.resolve(__dirname, 'build'),
+        filename: 'bundle.js'
+    // publicPath: __dirname + "/build/", // js引用路径或者CDN地址
+    // path: path.resolve(__dirname, "build"), // 打包文件的输出目录
+    // filename: "bundle.js"
   },
 
 
@@ -40,31 +44,33 @@ module.exports = {
       aggregateTimeout : 500,//防抖 一直输入代码，停止500毫秒打包一次
       ignored : /node_modules/,//不需要监控的内容
   },
+
 //如果手动引入，如import $ from 'jquery' 则不打包该模块
   externals : {
     jquery : 'jQuery'
   },
 
-  module: { //模块
+//模块
+  module: { 
       rules: [ 
-//注入$的方式和plugins中的配置只能二选一
+  //注入$的方式和plugins中的配置只能二选一
         // {//将jQuery暴露给全局文件使用，用$
         //     test : require.resolve('jquery'),
         //     use : 'expose-loader?$'
         // },
 
-//解析图片
+  //解析图片
         // {
         //     test : /\.(png|jpg|gif)$/,
         //     use : 'file-loader'
         // },
         
-//解析html文件，并编译图片
+  //解析html文件，并编译图片
         {
           test : /\.html$/,
           use : 'html-withimg-loader'
         },
-//解析图片，做一个限制，当图片小于多少K的时候，用base64来转化，当图片大于200K用file-loader来处理
+  //解析图片，做一个限制，当图片小于多少K的时候，用base64来转化，当图片大于200K用file-loader来处理
         {
           test : /\.(png|jpg|gif)$/,
           use : {
@@ -111,32 +117,38 @@ module.exports = {
             ]
           },
           {
-            test : /\.js$/,
-            // exclude : /node_modules/,	//排除该目录下的相关文件
-	        // include : path.resolve('src'),	//解析该目录下的相关文件
-            use : {
-                loader : 'babel-loader',
-                options : {//用babel-loader 需要把es6转为es5
-                    presets : [//插件库，大插件的集合
-                        '@babel/preset-env'//包含把es6转换成es5的模块，会调用该模块处理js文件
-                    ],
-                    plugins : [//这里配置小插件
-                        // '@babel/plugin-proposal-class-properties'
-                        ["@babel/plugin-proposal-decorators",{"legacy":true}],
-                        ["@babel/plugin-proposal-class-properties",{"loose":true}],
-                        '@babel/plugin-transform-runtime'
-                    ]
-                }
-            }
-        }
+            test: /\.(js|jsx?)$/,
+            use: 'babel-loader',
+          }
+          // {
+          //   test : /\.(js|jsx)$/,
+          //   // exclude : /node_modules/,	//排除该目录下的相关文件
+	        // // include : path.resolve('src'),	//解析该目录下的相关文件
+          //   use : {
+          //       loader : 'babel-loader',
+          //       options : {//用babel-loader 需要把es6转为es5
+          //           presets : [//插件库，大插件的集合
+          //               '@babel/preset-env'//包含把es6转换成es5的模块，会调用该模块处理js文件
+          //           ]
+          //           // plugins : [//这里配置小插件
+          //           //     // '@babel/plugin-proposal-class-properties'
+          //           //     ["@babel/plugin-proposal-decorators",{"legacy":true}],
+          //           //     ["@babel/plugin-proposal-class-properties",{"loose":true}],
+          //           //     '@babel/plugin-transform-runtime'
+          //           // ]
+          //       }
+          //   }
+        // }
       ]
     },
 
 //插件
   plugins:[
       new HtmlWebpackplugin({
-          template:'./src/index.html',//以该文件为模板生成打包后的html文件
-          filename:'index.html',//打包后生成的文件名
+          template: './public/index.html',
+          filename: 'index.html',
+          // template:'index.html',//以该文件为模板生成打包后的html文件
+          // filename:'index.html',//打包后生成的文件名
           minify:{//压缩打包后的html文件
               removeAttributeQuotes:true, //删除html文件中的双引号
               collapseWhitespace:true //html文件压缩成一行
@@ -159,8 +171,18 @@ module.exports = {
   //服务器
   devServer:{
     port: 6666,  //端口
+    proxyTable: {
+      //综合收件
+      '/api': {
+          target: "http://127.0.0.1:5000", //开发环境
+          changeOrigin: true,
+          pathRewrite: {
+              '^/api': 'api'
+          }
+      },
+    },
     progress: true,  //打包过程中显示进度条
     contentBase: './src/compileFile',   //该文件夹作为静态目录，即直接找到该文件夹，以当前目录作为指定目录
     open: true   //自动打开浏览器
-}
+  }
 };
