@@ -19,7 +19,7 @@ class App extends React.Component{
                         {/* <Route path='/'> */}
                             {/* <IndexRoute component={Login}/> */}
                             <Route path='/login' component={Login}/>
-                            <Route path='/admin' component={Admin}/>
+                            <Route path='/' component={Admin}/>
                         {/* </Route>
                     </Router> */}
                     

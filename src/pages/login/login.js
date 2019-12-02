@@ -31,7 +31,7 @@ class Login extends React.Component {
         //判断用户是否登录
         const user = memoryUtils.user
         if(user && user._id){
-            return <Redirect to='/admin'/>
+            return <Redirect to='/'/>
         }
 
         const { getFieldDecorator } = this.props.form;
@@ -93,7 +93,7 @@ class Login extends React.Component {
 
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                // console.log('handleSubmit = ()', values);
+                console.log('handleSubmit = ()', values);
                 const { username, password } = values
                 const result = await reqLogin(username, password)
                 if (result.status === 0 ){
@@ -105,7 +105,7 @@ class Login extends React.Component {
                     storageUtils.saveUser(user)//保存到local中
 
                     //跳转到管理界面(不需要再回退回到登陆)
-                    this.props.history.replace('/admin')
+                    this.props.history.replace('/')
                 }else{
                     message.error(result.msg)
                 }
