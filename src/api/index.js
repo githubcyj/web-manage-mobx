@@ -46,3 +46,10 @@ export const reqWeather = (city) => {
 }
 
 // reqWeather('上海')
+
+//获 取 一 级 或 某 个 二 级 分 类 列 表 
+export const reqCategorys = (parentId) => ajax(baseUrl + '/manage/category/list', {parentId}, 'GET')
+//添 加 分 类 
+export const reqAddCategory = (parentId, categoryName) => ajax(baseUrl + '/manage/category/add', { parentId, categoryName }, 'POST')
+//更 新 品 类 名 称 
+export const reqUpdateCategory = ({categoryId, categoryName}) => ajax(baseUrl + '/manage/category/update', { categoryId, categoryName }, 'POST')
