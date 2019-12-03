@@ -18,11 +18,10 @@ class AddForm extends React.Component{
     //     this.props.setForm(this.props.form) 
     // }
 
-
     render(){
         const {getFieldDecorator} = this.props.form
 
-        const {categorys, parentId} = this.props 
+        const {categorys, parentId} = this.props
         
         return(
             <Form>

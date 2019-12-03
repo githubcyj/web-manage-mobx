@@ -1,5 +1,5 @@
 import React from 'react'
-import {Card, Table, Button, Icon, Modal, message} from 'antd'
+import {Card, Table, Button, Icon, Modal, message, } from 'antd'
 import AddForm from './add-form'
 import LinkButton from '../../components/link-button'
 import {reqCategorys, reqAddCategory, reqUpdateCategory} from "../../api";
@@ -69,39 +69,6 @@ export default class Category extends React.Component{
           )
 
 
-        // const dataSource = [
-        //     {
-        //       key: '1',
-        //       name: '胡彦斌',
-        //       age: 32,
-        //       address: '西湖区湖底公园1号',
-        //     },
-        //     {
-        //       key: '2',
-        //       name: '胡彦祖',
-        //       age: 42,
-        //       address: '西湖区湖底公园1号',
-        //     },
-        //   ];
-          
-        //   const columns = [
-        //     {
-        //       title: '姓名',
-        //       dataIndex: 'name',
-        //       key: 'name',
-        //     },
-        //     {
-        //       title: '年龄',
-        //       dataIndex: 'age',
-        //       key: 'age',
-        //     },
-        //     {
-        //       title: '住址',
-        //       dataIndex: 'address',
-        //       key: 'address',
-        //     },
-        //   ];
-          
         return(
             <Card title={title} extra={extra} /* style={{height: '90%'}} */>
                 {/* <Table dataSource={dataSource} columns={columns} /> */}
@@ -117,15 +84,19 @@ export default class Category extends React.Component{
 
                 <Modal
                     title="添加分类"
-                    visible={showStatus===1}
-                    onOk={this.addCategory}
-                    onCancel={() => this.setState({showStatus: 0})}
+                    visible={}
                     >
-                    <AddForm 
-                      categorys={categorys} 
-                      parentId={parentId} 
-                      setForm={form => this.form = form} 
-                    />
+                      {
+                        showStatus===1 ? 
+                          <AddForm 
+                            categorys={categorys} 
+                            parentId={parentId} 
+                            setForm={form => this.form = form}
+                            onOk={this.addCategory}
+                            onCancel={() => this.setState({showStatus: 0})}
+                          />
+                          :null
+                      }
                 </Modal>
 
                 <Modal 
@@ -224,12 +195,16 @@ export default class Category extends React.Component{
       添 加 分 类
       */ 
     addCategory = async () => { 
+      console.log(this.formRef.getItemsValue());     //6、调用子组件的自定义方法getItemsValue。注意：通过this.formRef 才能拿到数据
+      
       // 得到数据 
-      const {parentId, categoryName} = this.form.getFieldsValue() 
+      const {parentId, categoryName} = this.props.getFormRef(this.formRef.getItemsValue())
+      console.log(parentId)
+      console.log(categoryName)
       // 关闭对话框 
       this.setState({ showStatus: 0 }) 
       // 重置表单 
-      this.form.resetFields()
+      // this.form.resetFields()
       // 异步请求添加分类
       const result = await reqAddCategory(categoryName, parentId) 
       if (result.status === 0) {
