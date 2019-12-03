@@ -81,23 +81,17 @@ export default class Category extends React.Component{
                   loading={loading} 
                   pagination={{pageSize: 5, showQuickJumper: true, showSizeChanger: true}} 
                 />
-
-                <Modal
-                    title="添加分类"
-                    visible={}
-                    >
                       {
-                        showStatus===1 ? 
+                        this.state.showStatus == 1 ? 
                           <AddForm 
-                            categorys={categorys} 
-                            parentId={parentId} 
-                            setForm={form => this.form = form}
+                            // categorys={categorys} 
+                            // parentId={parentId} 
+                            visible={this.state.showStatus}
                             onOk={this.addCategory}
-                            onCancel={() => this.setState({showStatus: 0})}
+                            onCancel={this.addCancel}
                           />
                           :null
                       }
-                </Modal>
 
                 <Modal 
                     title="修改分类" 
@@ -218,6 +212,12 @@ export default class Category extends React.Component{
             this.getCategorys(parentId)
           }
         }
+    }
+
+    addCancel = () => {
+      this.setState({
+        showStatus: 0
+      })
     }
 
     /*
