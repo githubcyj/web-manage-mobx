@@ -4,12 +4,11 @@
 
  import React from 'react'
  /* browserroute 和 hashroute 的区别是是否加上#*/
- import {BrowserRouter, Route, Router, IndexRoute, Switch} from 'react-router-dom'
+ import {BrowserRouter, Route, IndexRoute, Switch} from 'react-router-dom'
 import Login from './pages/login/login';
 import Admin from './pages/admin/admin';
 
 class App extends React.Component{
-
 
     render(){
         return ( 
