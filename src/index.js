@@ -12,7 +12,7 @@ import {Provider} from 'mobx-react'
 import AppRoute from './routers/index'
 
 // 导入应用store
-import AppStore from '../src/stores/index'
+import AppStore from './stores/index'
 
 //引入全局样式
 import '../public/css/reset.css'

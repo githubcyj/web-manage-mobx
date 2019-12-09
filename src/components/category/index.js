@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Table, Button, Icon, Modal, message, } from 'antd'
 import AddForm from './add-form'
-import LinkButton from '../../components/link-button'
+import LinkButton from '../link-button'
 import {reqCategorys, reqAddCategory, reqUpdateCategory} from "../../api";
 import UpdateForm from './update-form'
 

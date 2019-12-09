@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form, Icon, Input, Button, message } from 'antd';
 
-import './login.less'
+import '../../style/login.less'
 import logo from '../../assets/images/logo.png'
 import { reqLogin } from '../../api'
 import memoryUtils from '../../utils/memoryUtils';
