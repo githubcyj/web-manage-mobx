@@ -1,4 +1,5 @@
 import React from 'react'
+import {inject, observer} from 'mobx-react';
 import { Form, Icon, Input, Button, message } from 'antd';
 
 import '../../style/login.less'
@@ -10,6 +11,8 @@ import { Redirect } from 'react-router-dom'
 
 const Item = Form.Item;
 
+@inject('loginStore')
+@observer
 class Login extends React.Component {
 
     validatePwd = (rule, value, callback) => {
@@ -31,10 +34,11 @@ class Login extends React.Component {
         //判断用户是否登录
         const user = memoryUtils.user
         if(user && user._id){
-            return <Redirect to='/'/>
+            return <Redirect to='/manage'/>
         }
 
         const { getFieldDecorator } = this.props.form;
+        
         return (
             <div className="login">
                 <header className="login-header">
@@ -88,14 +92,16 @@ class Login extends React.Component {
         //阻止事件的默认行为
         event.preventDefault();
 
+        const loginStore = this.props.loginStore;
+
         // const form = this.props.form;
         // const values = form.getFieldsValue();
 
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                console.log('handleSubmit = ()', values);
-                const { username, password } = values
-                const result = await reqLogin(username, password)
+                // const { username, password } = values
+                const result = await loginStore.reqLogin(values)
+                // const result = await reqLogin(username, password)
                 if (result.status === 0 ){
                     message.success('登录成功')
                     
@@ -105,7 +111,7 @@ class Login extends React.Component {
                     storageUtils.saveUser(user)//保存到local中
 
                     //跳转到管理界面(不需要再回退回到登陆)
-                    this.props.history.replace('/')
+                    this.props.history.replace('/manage')
                 }else{
                     message.error(result.msg)
                 }

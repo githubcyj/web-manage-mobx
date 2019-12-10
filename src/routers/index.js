@@ -13,6 +13,7 @@ import {asyncComponent} from './AsyncComponent'
 
 const Login = asyncComponent(()=> import('../components/login/login'))
 const Manage = asyncComponent(()=> import('../components/admin/admin'))
+const Main = asyncComponent(()=> import('../components/main/index'))
 
 @inject('routerStore')
 class AppRoute extends Component {
@@ -31,9 +32,9 @@ class AppRoute extends Component {
                     <IndexRoute component={Login}/>
                     <Route name="/login" path="/login" component={Login}/>
                     {/* <Route name="/tenant" path="/tenant" component={Tenant}/> */}
-                    <Route name="/manage" path="/manage" breadcrumbName="主页" component={Manage}>
+                    <Route name="/manage" path="/manage" breadcrumbName="主页" component={Main}>
                         <IndexRedirect to="/home"/>
-                        <Route name="/home" breadcrumbName="主页" path="/home" component={Manage}/>
+                        <Route name="/home" breadcrumbName="主页" path="/home" component={Main}/>
                         {/* <Route name="agent" breadcrumbName="应用中心" path="agent"></Route> */}
                     </Route>
                 </Route>
