@@ -91,6 +91,9 @@ module.exports = {
         new CleanWebpackPlugin(),    //先删除该目录再打包
     ],
 
+//源码映射
+    devtool: 'source-map',
+
 //实时监控代码变化并实时打包
     watch : true,
     watchOptions : {//监控选项

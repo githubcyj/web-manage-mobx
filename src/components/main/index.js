@@ -4,7 +4,7 @@ import { Layout } from 'antd'
 
 import memoryUtils from '../../utils/memoryUtils'
 import LeftNav from './left-nav'
-import Header from '../header/header'
+import Header from './header/header'
 
 import LeftSider from './leftsider'
 

@@ -22,7 +22,6 @@ import '../public/css/reset.css'
 
 import storageUtils from './utils/storageUtils'
 import memoryUtils from './utils/memoryUtils'
-import AppRoute from'../src/routers/index'
 
 //读取local保存user，保存到内存中
 const user = storageUtils.getUser()

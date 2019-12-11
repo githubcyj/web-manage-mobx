@@ -3,11 +3,11 @@ import {withRouter} from 'react-router-dom'
 import { Modal } from 'antd';
 
 import './header.less'
-import {formateDate} from '../../utils/dateUtils'
-import memoryUtils from '../../utils/memoryUtils'
-import storageUtils from '../../utils/storageUtils'
-import {reqWeather} from '../../api'
-import menuList from '../../config/menuConfig'
+import {formateDate} from '../../../utils/dateUtils'
+import memoryUtils from '../../../utils/memoryUtils'
+import storageUtils from '../../../utils/storageUtils'
+import {reqWeather} from '../../../api'
+import menuList from '../../../config/menuConfig'
 import LinkButton from '../link-button';
 
 

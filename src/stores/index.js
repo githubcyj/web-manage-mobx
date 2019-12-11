@@ -9,7 +9,7 @@ import MainStore from './mainStore'
 //导入管理模块
 import HomeStore from './homeStore'
 
-useStrict(false);
+// useStrict(false);
 
 class AppStore {
     /**
@@ -23,7 +23,7 @@ class AppStore {
         this.MainStore = new MainStore(this);
         
         //导入管理模块
-        this.HomeStore = new HomeStore(this);
+        // this.HomeStore = new HomeStore(this)
 
     }
 }
