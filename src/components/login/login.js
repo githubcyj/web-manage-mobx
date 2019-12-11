@@ -102,6 +102,7 @@ class Login extends React.Component {
                 // const { username, password } = values
                 const result = await loginStore.reqLogin(values)
                 // const result = await reqLogin(username, password)
+                console.log("reqlogin==="+result)
                 if (result.status === 0 ){
                     message.success('登录成功')
                     
