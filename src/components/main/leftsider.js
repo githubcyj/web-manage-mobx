@@ -34,10 +34,10 @@ class LeftSider extends Component {
                 selectedKeys={toJS(mainStore.selectedKeys)}
                 >
                 <Menu.Item key="MENULEFT-ITEM1">
-                    <Link to="/home">
+                    {/* <Link to="/home"> */}
                     <Icon type="home"/>
                     <span>首页</span>
-                    </Link>
+                    {/* </Link> */}
                 </Menu.Item>
                 {this.renderSubMenu()}
                 </Menu>

@@ -7,7 +7,7 @@ import LoginStore from './loginStore'
 import MainStore from './mainStore'
 
 //导入管理模块
-import HomeStore from './homeStore'
+// import HomeStore from './homeStore'
 
 // useStrict(false);
 
@@ -19,8 +19,8 @@ class AppStore {
         // mobx路由store
         this.routerStore = new RouterStore();
         //导入模块store
-        this.LoginStore = new LoginStore(this);
-        this.MainStore = new MainStore(this);
+        this.loginStore = new LoginStore(this);
+        this.mainStore = new MainStore(this);
         
         //导入管理模块
         // this.HomeStore = new HomeStore(this)

@@ -1,13 +1,12 @@
 import {message} from 'antd';
-import {RouterStore, syncHistoryWithStore} from 'mobx-react-router';
-import {useRouterHistory} from 'react-router';
-import {createHashHistory} from 'history';
+import {RouterStore} from 'mobx-react-router';
+// import {useRouterHistory} from 'react-router';
+// import {createHashHistory} from 'history';
 import {action} from 'mobx';
 
 /**
  * Http工具类
  *
- * @author chenlongtao
  */
 class HttpUtil {
   constructor() {
@@ -78,11 +77,11 @@ class HttpUtil {
    * fetch发送请求
    */
   getFetch = (request, callback = ()=>{}) => {
-    const browserHistory = useRouterHistory(createHashHistory)({
-      queryKey: '_key',
-      basename: '/'
-    });
-    const history = syncHistoryWithStore(browserHistory, this.routerStore);
+    // const browserHistory = useRouterHistory(createHashHistory)({
+    //   queryKey: '_key',
+    //   basename: '/'
+    // });
+    // const history = syncHistoryWithStore(browserHistory, this.routerStore);
 
     // 调用请求
     return fetch(request).then(response => {
@@ -95,7 +94,7 @@ class HttpUtil {
       }
       // 请求失败
       else if (jsonResponse.errcode === 40001 || jsonResponse.errcode === 42001) {
-        const {push} = history;
+        const {push} = '/login';
         if (window.location.hash !== '#/login') {
           sessionStorage.setItem('timeoutPage', window.location.hash.slice(1));
           try{
@@ -108,11 +107,11 @@ class HttpUtil {
         }
         return jsonResponse;
       } else if (jsonResponse.errcode === -3) {
-        const {push} = history;
+        const {push} = '/login';
         push('/admin/license');
         return jsonResponse;
       } else if (jsonResponse.errcode === -9) {
-        const {push} = history;
+        const {push} = '/login';
         push('/admin/basesetting');
         return jsonResponse;
       }
@@ -168,11 +167,11 @@ class HttpUtil {
   };
 
   judgeErrCode = (jsonResponse,callback) => {
-    const browserHistory = useRouterHistory(createHashHistory)({
-      queryKey: '_key',
-      basename: '/'
-    });
-    const history = syncHistoryWithStore(browserHistory, this.routerStore);
+    // const browserHistory = useRouterHistory(createHashHistory)({
+    //   queryKey: '_key',
+    //   basename: '/'
+    // });
+    // const history = syncHistoryWithStore(browserHistory, this.routerStore);
     // 请求成功
     if (jsonResponse.errcode === 0 || jsonResponse.errcode === 200) {
       callback(jsonResponse);
@@ -181,7 +180,7 @@ class HttpUtil {
     // 请求失败
     else if (jsonResponse.errcode === 40001 || jsonResponse.errcode === 42001) {
 
-      const {push} = history;
+      const {push} = '/login';
       if (window.location.hash !== '#/login') {
         sessionStorage.setItem('timeoutPage', window.location.hash.slice(1));
         try{
@@ -194,12 +193,12 @@ class HttpUtil {
       }
       return jsonResponse;
     } else if (jsonResponse.errcode === -3) {
-      const {push} = history;
+      const {push} = '/login';
       console.log(push);
       push('/admin/license');
       return jsonResponse;
     } else if (jsonResponse.errcode === -9) {
-      const {push} = history;
+      const {push} = '/login';
       push('/admin/basesetting');
       return jsonResponse;
     } else {
