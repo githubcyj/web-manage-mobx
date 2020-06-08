@@ -99,8 +99,8 @@ class Login extends React.Component {
 
         this.props.form.validateFields(async (err, values) => {
             if (!err) {
-                // const { username, password } = values
-                const result = await loginStore.reqLogin(values)
+                // const { username, password } = values;
+                const result = await loginStore.reqLogin(values);
                 // const result = await reqLogin(username, password)
                 console.log("reqlogin==="+result)
                 if (result.status === 0 ){

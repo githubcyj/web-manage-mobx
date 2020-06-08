@@ -3,6 +3,9 @@ let HtmlWebpackplugin = require('html-webpack-plugin')
 let MiniCssExtractPlugin = require('mini-css-extract-plugin')
 let {CleanWebpackPlugin} = require('clean-webpack-plugin')
 
+//引入data的json文件
+let loginData = require('./mockdata/loginData.json')
+
 module.exports = {
 
 //模式 production  development
@@ -122,6 +125,14 @@ module.exports = {
                     '^/api': 'api'
                 }
             },
-        }
+        },
+        // before(app){
+        //     app.get('/login',function(req, res){
+        //         res.json({
+        //             error:0,
+        //             data:loginData
+        //         })
+        //     })
+        // }
     }
 }
