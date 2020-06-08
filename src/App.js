@@ -1,31 +1,74 @@
-/**
- * 应用根目录
- */
+import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Link, Switch, Redirect} from "react-router-dom";
+import {connect} from "react-redux";
 
- import React from 'react'
- /* browserroute 和 hashroute 的区别是是否加上#*/
- import {BrowserRouter, Route, IndexRoute, Switch, hashroute} from 'react-router-dom'
-import Login from './pages/login/login';
-import Admin from './pages/admin/admin';
+import LayOut from './Components/LayOut'
+import Login from './Pages/Mine/Login'
+import ErrorPage from './Pages/ErrorPage'
 
-class App extends React.Component{
+import Home from './Pages/Home/Home'
+import User from './Pages/User/User'
 
-    render(){
-        return ( 
-            <BrowserRouter>
+import SowingRouter from './Pages/Sowing/router'
+import CourseRouter from './Pages/Course/router'
+import MineRouter from './Pages/Mine/router'
+import * as constants from "./Store/actionTypes";
+
+class App extends Component {
+    componentWillMount() {
+        this.props.reqLocalData();
+    }
+
+    render() {
+        // 主面板
+        let LayOutRouter = (
+            <LayOut>
                 <Switch>
-                    {/* <Router history={Login}> */}
-                        {/* <Route path='/'> */}
-                            {/* <IndexRoute component={Login}/> */}
-                            <Route path='/login' component={Login}/>
-                            <Route path='/' component={Admin}/>
-                        {/* </Route>
-                    </Router> */}
-                    
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/user" component={User}/>
+                    <Route path="/mine" component={MineRouter}/>
+                    <Route path="/sowing" component={SowingRouter}/>
+                    <Route path="/course" component={CourseRouter}/>
+                    <Route component={ErrorPage}/>
                 </Switch>
-            </BrowserRouter>
-        )
+            </LayOut>
+        );
+        return (
+            <Router>
+                <Switch>
+                    <Route
+                        exact
+                        path="/"
+                        render={
+                            this.props.userData ?
+                                (props)=> LayOutRouter :
+                                ()=> <Redirect to="/login"  push/>
+                        }
+                    />
+                    <Route path="/login" component={Login}/>
+                    <Route path="/" render={props => LayOutRouter}/>
+                </Switch>
+            </Router>
+        );
     }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch)=>{
+  return {
+      reqLocalData(){
+          const userData = JSON.parse(sessionStorage.getItem('userData'));
+          dispatch({
+              type: constants.INIT_USER_DATA,
+              userData
+          });
+      }
+  }
+};
+
+const mapStateToProps = (state)=>{
+    return {
+        userData: state.userData
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
